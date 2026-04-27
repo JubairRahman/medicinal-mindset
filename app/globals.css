@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+/* animation */
+@layer components {
+  .animate-float,
+  .animate-float-delayed {
+    will-change: transform;
+    transition: filter 0.5s ease;
+  }
+
+  .animate-float:hover,
+  .animate-float-delayed:hover {
+    animation-play-state: paused;
+    filter: brightness(1.1);
+  }
+}
+@layer utilities {
+  .animate-float {
+    will-change: transform;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.3));
+  }
+
+  .animate-float-delayed {
+    will-change: transform;
+    filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.3));
+  }
+
+  /* This adds that cinematic "Glass" glow on hover */
+  .group:hover img {
+    filter: brightness(1.1) contrast(1.05);
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(10px);
+  }
+  60% {
+    transform: translateX(-10px);
+  }
+  80% {
+    transform: translateX(10px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
