@@ -8,41 +8,70 @@ import {
   faPhone,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-// Example of adding it to existing imports
 import {
   Users,
   ShieldCheck,
   Stethoscope,
   ArrowRight,
   HeartPulse,
-  Activity, // Added for ICU
-  DoorOpen, // Added for Chamber
-  Bed, // Added for Patient Ward
-  Microscope, // Added for Test Room
-  FlaskConical, // Added for Laboratory
+  Activity,
+  DoorOpen,
+  Bed,
+  Microscope,
+  FlaskConical,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
+// --- Types for TypeScript ---
+interface Post {
+  id: number;
+  title: string;
+  author: string;
+  date: string;
+  image: string;
+  excerpt: string;
+}
+
+interface Doctor {
+  id: string | number;
+  name: string;
+  isVerified: boolean;
+  rating: number;
+  reviewCount: number;
+  location: string;
+  availability: string;
+  priceRange: {
+    min: number;
+    max: number;
+    currency: string;
+  };
+  image: string;
+  bgColor: string;
+}
+
 export default function Page() {
-  // github fetch json
-  const [posts, setPosts] = useState([]);
-  const [doctors, setDoctors] = useState([]);
+  // Use types to prevent the "type never" build error
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [loading, setLoading] = useState(true); // Added loading state
 
   useEffect(() => {
-    // Replace with your actual GitHub Raw URL
     const GITHUB_JSON_URL =
       "https://raw.githubusercontent.com/JubairRahman/medicinal-mindset-data/refs/heads/main/blog.json";
     const Doctor_JSON_URL =
       "https://raw.githubusercontent.com/JubairRahman/medicinal-mindset-data/refs/heads/main/doctor.json";
+
+    // Fetch Blog Posts
     fetch(GITHUB_JSON_URL)
       .then((res) => res.json())
       .then((data) => setPosts(data.posts))
-      .catch((err) => console.error("Error fetching data:", err));
+      .catch((err) => console.error("Error fetching blog data:", err));
 
+    // Fetch Doctors
     fetch(Doctor_JSON_URL)
       .then((res) => res.json())
       .then((data) => setDoctors(data.doctors))
-      .catch((err) => console.error("Error fetching data:", err));
+      .catch((err) => console.error("Error fetching doctor data:", err));
   }, []);
 
   const topCards = [
