@@ -58,6 +58,7 @@ export default function AppointmentPage() {
     reason: "",
     notes: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false); // New state for submission status
   const [payment, setPayment] = useState("");
   const [trxId, setTrxId] = useState("");
   // submitform function
@@ -74,6 +75,9 @@ export default function AppointmentPage() {
       return;
     }
 
+    // Start the loader
+    setIsSubmitting(true);
+
     const bookingData = {
       "Patient Name": form.name,
       "Phone Number": form.phone,
@@ -89,11 +93,11 @@ export default function AppointmentPage() {
       "Transaction ID": trxId,
       Status: "Confirmed",
       "Booking Timestamp": new Date().toLocaleString(),
-    };
+    }; // new lines for loader
 
     try {
       // POSTING TO APPS SCRIPT
-      const response = await fetch(
+      await fetch(
         "https://script.google.com/macros/s/AKfycbyyLq3WndmxiLk_iDRcAAq7-CUvGvmd_wRXQA-Npol0v2h_KUJucj8Qi14YXHQYZo1I/exec",
         {
           method: "POST",
@@ -101,12 +105,16 @@ export default function AppointmentPage() {
         },
       );
 
-      // Apps script returns a success even if CORS is weird sometimes
       alert("Appointment Registered Successfully!");
-      window.location.href = "/about";
+
+      // Redirect to Home instead of Dashboard or About
+      window.location.href = "/";
     } catch (error) {
       console.error("Booking Error:", error);
-      alert("Registration submitted. Please check the dashboard.");
+      alert("Something went wrong. Please try again.");
+
+      // Turn off loader so the user can try clicking again
+      setIsSubmitting(false);
     }
   };
   // submit form end
@@ -355,9 +363,23 @@ export default function AppointmentPage() {
             {/* CONFIRM BUTTON */}
             <button
               onClick={submitForm}
-              className="w-full bg-slate-900 hover:bg-black text-white py-5 rounded-[1.5rem] font-bold text-lg shadow-xl shadow-slate-200 transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+              disabled={isSubmitting}
+              className={`w-full py-5 rounded-[1.5rem] font-bold text-lg shadow-xl transition-all flex items-center justify-center gap-3 ${
+                isSubmitting
+                  ? "bg-slate-600 cursor-not-allowed opacity-80"
+                  : "bg-slate-900 hover:bg-black text-white active:scale-[0.98] shadow-slate-200"
+              }`}
             >
-              Complete Booking <ChevronRight size={20} />
+              {isSubmitting ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span>Registering Slot...</span>
+                </>
+              ) : (
+                <>
+                  Complete Booking <ChevronRight size={20} />
+                </>
+              )}
             </button>
           </div>
 

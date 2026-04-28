@@ -116,8 +116,8 @@ export default function Page() {
             </p>
 
             <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-              Modern Care <br />
-              <span className="text-blue-500">Minimal Design</span>
+              Progressive & <br />
+              <span className="text-blue-500">Professional Care</span>
             </h1>
 
             <p className="mt-6 text-slate-300 text-lg leading-relaxed max-w-xl">

@@ -80,9 +80,9 @@ export default function Footer() {
                 />
                 <div className="text-sm">
                   <p className="text-slate-200">
-                    বাসা নং- ০৪, ব্লক নং-ই, মেইন রোড
+                    House #04, Block- E, Main Road
                   </p>
-                  <p>বনশ্রী, ঢাকা-১২১৯, বাংলাদেশ</p>
+                  <p>Banasree, Dhaka-1219, Bangladesh</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
