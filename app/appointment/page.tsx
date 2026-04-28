@@ -103,7 +103,7 @@ export default function AppointmentPage() {
 
       // Apps script returns a success even if CORS is weird sometimes
       alert("Appointment Registered Successfully!");
-      window.location.href = "/dashboard";
+      window.location.href = "/about";
     } catch (error) {
       console.error("Booking Error:", error);
       alert("Registration submitted. Please check the dashboard.");
